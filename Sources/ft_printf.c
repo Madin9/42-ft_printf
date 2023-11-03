@@ -1,40 +1,40 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_putnbr_fd.c                                     :+:      :+:    :+:   */
+/*   ft_printf.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: chonorat <chonorat@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/12/05 15:43:58 by chonorat          #+#    #+#             */
-/*   Updated: 2023/01/27 17:29:57 by chonorat         ###   ########.fr       */
+/*   Created: 2022/12/07 16:13:24 by chonorat          #+#    #+#             */
+/*   Updated: 2023/03/14 16:57:08 by chonorat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "../Includes/ft_printf.h"
 
-int	ft_putnbr_fd(int n, int fd)
+int	ft_printf(const char *str, ...)
 {
-	char	c;
+	int		index;
+	int		strlength;
 	int		check_error;
+	va_list	param;
 
-	if (n == -2147483648)
-		return (write(fd, "-2147483648", 11));
-	if (n < 0)
+	va_start(param, str);
+	strlength = 0;
+	index = 0;
+	check_error = 0;
+	while (str[index])
 	{
-		n = n * -1;
-		check_error = write(fd, "-", 1);
+		if (str[index] == '%')
+		{
+			index++;
+			check_error = ft_get_type(str[index++], param);
+		}
+		else
+			check_error = ft_putchar_fd(str[index++], 1);
 		if (check_error == -1)
-			return (-1);
+			return (va_end(param), -1);
+		strlength += check_error;
 	}
-	if (n <= 9)
-	{
-		c = n + '0';
-		check_error = write(fd, &c, 1);
-	}
-	if (n > 9)
-	{
-		ft_putnbr_fd(n / 10, fd);
-		ft_putnbr_fd(n % 10, fd);
-	}
-	return (check_error);
+	return (va_end(param), strlength);
 }

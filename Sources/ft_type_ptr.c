@@ -6,13 +6,13 @@
 /*   By: chonorat <chonorat@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/16 16:35:21 by chonorat          #+#    #+#             */
-/*   Updated: 2022/12/29 16:04:41 by chonorat         ###   ########.fr       */
+/*   Updated: 2023/02/08 15:52:53 by chonorat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../Includes/ft_printf.h"
 
-static int	ft_hexa_counter_ptr(long unsigned int value)
+int	ft_hexa_counter_ptr(long unsigned int value)
 {
 	int	counter;
 
@@ -25,31 +25,38 @@ static int	ft_hexa_counter_ptr(long unsigned int value)
 	return (counter);
 }
 
-static void	ft_puthexa_ptr(long unsigned int hexa_convert)
+int	ft_puthexa_ptr(long unsigned int hexa_convert, int check_error)
 {
 	if (hexa_convert >= 16)
 	{
-		ft_puthexa_ptr(hexa_convert / 16);
-		ft_puthexa_ptr(hexa_convert % 16);
+		ft_puthexa_ptr(hexa_convert / 16, check_error);
+		ft_puthexa_ptr(hexa_convert % 16, check_error);
 	}
 	else
-		ft_putchar_fd("0123456789abcdef"[hexa_convert], 1);
+		check_error = (ft_putchar_fd("0123456789abcdef"[hexa_convert], 1));
+	return (check_error);
 }
 
 int	ft_type_ptr(va_list param)
 {
 	long unsigned int	value;
+	int					check_error;
 
 	value = va_arg(param, long unsigned int);
-	ft_putstr_fd("0x", 1);
 	if (value == 0)
 	{
-		ft_putchar_fd('0', 1);
-		return (3);
+		check_error = (ft_putstr_fd("(nil)", 1));
+		if (check_error == -1)
+			return (-1);
+		return (5);
 	}
 	else
 	{
-		ft_puthexa_ptr(value);
+		check_error = ft_putstr_fd("0x", 1);
+		if (check_error == -1)
+			return (-1);
+		if (ft_puthexa_ptr(value, check_error) == -1)
+			return (-1);
 		return (ft_hexa_counter_ptr(value) + 2);
 	}
 }

@@ -6,19 +6,28 @@
 /*   By: chonorat <chonorat@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/05 16:27:59 by chonorat          #+#    #+#             */
-/*   Updated: 2022/12/27 16:15:03 by chonorat         ###   ########.fr       */
+/*   Updated: 2023/01/18 16:22:22 by chonorat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-void	ft_putstr_fd(char *s, int fd)
+int	ft_putstr_fd(char *s, int fd)
 {
-	unsigned int	index;
+	int	index;
+	int	check_error;
 
+	check_error = 0;
 	index = 0;
 	if (!s)
-		return ;
+		return (0);
 	while (s[index])
-		write(fd, &s[index++], 1);
+	{
+		check_error = write(fd, &s[index], 1);
+		if (check_error == -1)
+			return (-1);
+		else
+			index += check_error;
+	}
+	return (index);
 }

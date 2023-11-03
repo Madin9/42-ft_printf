@@ -6,7 +6,7 @@
 /*   By: chonorat <chonorat@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/16 14:29:08 by chonorat          #+#    #+#             */
-/*   Updated: 2022/12/05 16:36:34 by chonorat         ###   ########.fr       */
+/*   Updated: 2023/01/07 14:31:37 by chonorat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,10 +63,7 @@ char	*ft_strtrim(char const *s1, char const *set)
 	if (!s1 || !set)
 		return (NULL);
 	if (check_onlyset(s1, set) == 1)
-	{
-		new_str = (char *)malloc(sizeof(""));
-		return (new_str);
-	}
+		return (ft_strdup(""));
 	while (check_set(s1[index], set))
 		index++;
 	while (s1[index_j + 1])

@@ -6,15 +6,24 @@
 #    By: chonorat <chonorat@student.42lyon.fr>      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/11/14 14:37:20 by chonorat          #+#    #+#              #
-#    Updated: 2022/12/28 16:03:04 by chonorat         ###   ########.fr        #
+#    Updated: 2023/03/15 15:15:36 by chonorat         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
+#COLOR
+_GREEN = \033[92m
+
+#POLICE
+_END = \033[0m
+_BOLD = \033[1m
+
 NAME = libft.a
-BUILD_FLAGS = -Wall -Wextra -Werror
-RM = rm -f
-AR = ar -rcs
-GCC = gcc -c
+CFLAGS = -Wall -Wextra -Werror
+RM = @rm -f
+AR = @ar -rcs
+CC = @cc -c
+HEADER = ./libft.h
+PRINT = @echo
 FILES = ft_isalpha\
 		ft_isdigit\
 		ft_isalnum\
@@ -48,37 +57,39 @@ FILES = ft_isalpha\
 		ft_putchar_fd\
 		ft_putstr_fd\
 		ft_putendl_fd\
-		ft_putnbr_fd
-BONUS_FILES = ft_lstnew\
-			  ft_lstadd_front\
-			  ft_lstsize\
-			  ft_lstlast\
-			  ft_lstadd_back\
-			  ft_lstdelone\
-			  ft_lstclear\
-			  ft_lstiter\
-			  ft_lstmap
+		ft_putnbr_fd\
+		ft_lstnew\
+		ft_lstadd_front\
+		ft_lstsize\
+		ft_lstlast\
+		ft_lstadd_back\
+		ft_lstdelone\
+		ft_lstclear\
+		ft_lstiter\
+		ft_lstmap
 SRCS = $(addsuffix .c, $(FILES))
-SRCS_B = $(addsuffix .c, $(BONUS_FILES))
 OBJ_FILES = $(addsuffix .o, $(FILES))
-OBJ_B_FILES = $(addsuffix .o, $(BONUS_FILES))
 
-$(NAME): all
-
-all:
-	$(GCC) $(BUILD_FLAGS) $(SRCS)
+$(NAME): $(OBJ_FILES)
+	$(PRINT) "\nMaking ${_BOLD}libft.a${_END}..."
 	$(AR) $(NAME) $(OBJ_FILES)
-	
-bonus:
-	$(GCC) $(BUILD_FLAGS) $(SRCS_B)
-	$(AR) $(NAME) $(OBJ_B_FILES)
+	$(PRINT) "${_BOLD}${_GREEN}libft.a done.${_END}"
+
+%.o: %.c Makefile $(HEADER)
+	$(PRINT) "Compiling ${_BOLD}$<$(_END)..."
+	$(CC) $(CFLAGS) $< -o $@
+
+all: $(NAME)
 
 clean:
-	$(RM) $(OBJ_FILES) $(OBJ_B_FILES)
+	$(PRINT) "${_BOLD}Cleaning libft...${_END}"
+	$(RM) $(OBJ_FILES)
+	$(PRINT) "${_BOLD}${_GREEN}libft cleaned.${_END}"
 
 fclean: clean
 	$(RM) $(NAME)
-	
+	$(PRINT) "${_BOLD}${_GREEN}libft.a deleted.${_END}"
+
 re: fclean all
 
-.PHONY: all bonus clean fclean re
+.PHONY: all clean fclean re

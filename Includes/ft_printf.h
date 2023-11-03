@@ -6,7 +6,7 @@
 /*   By: chonorat <chonorat@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/06 15:39:41 by chonorat          #+#    #+#             */
-/*   Updated: 2022/12/29 16:10:18 by chonorat         ###   ########.fr       */
+/*   Updated: 2023/03/15 15:19:50 by chonorat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 
 # include <stdarg.h>
 # include <unistd.h>
-# include <stdlib.h>
+//# include <stdlib.h>
 # include "../libft/libft.h"
 
 int	ft_printf(const char *str, ...);

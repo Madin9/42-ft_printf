@@ -6,20 +6,29 @@
 /*   By: chonorat <chonorat@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/05 15:43:45 by chonorat          #+#    #+#             */
-/*   Updated: 2022/12/27 16:14:54 by chonorat         ###   ########.fr       */
+/*   Updated: 2023/01/18 16:24:45 by chonorat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-void	ft_putendl_fd(char *s, int fd)
+int	ft_putendl_fd(char *s, int fd)
 {
-	unsigned int	index;
+	int	index;
+	int	check_error;
 
 	if (!s)
-		return ;
+		return (0);
+	check_error = 0;
 	index = 0;
 	while (s[index])
-		write(fd, &s[index++], 1);
-	write(fd, "\n", 1);
+	{
+		check_error = write(fd, &s[index], 1);
+		if (check_error == -1)
+			return (-1);
+		else
+			index += check_error;
+	}
+	index += write(fd, "\n", 1);
+	return (index);
 }

@@ -6,7 +6,7 @@
 /*   By: chonorat <chonorat@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/07 16:50:49 by chonorat          #+#    #+#             */
-/*   Updated: 2022/12/29 16:07:45 by chonorat         ###   ########.fr       */
+/*   Updated: 2023/01/18 16:10:28 by chonorat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,9 +30,6 @@ int	ft_get_type(char type, va_list param)
 	else if (type == 'p')
 		lenght = ft_type_ptr(param);
 	else if (type == '%')
-	{
-		ft_putchar_fd('%', 1);
-		lenght += 1;
-	}
+		lenght = ft_putchar_fd('%', 1);
 	return (lenght);
 }
